@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions - Shop</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+html, body { width:100%; overflow-x:hidden; background:#f5f5f5; }
+
+/* BODY LAYOUT */
+body { display:flex; flex-direction:column; }
+
+/* HERO SECTION */
+.hero {
+    background:url('medical18.webp') center/cover no-repeat;
+    text-align:center; color:white; padding:80px 20px;
+}
+.hero h1 { font-size:48px; margin-bottom:15px; }
+.hero p { font-size:20px; margin-bottom:20px; }
+.hero button { padding:12px 25px; background:#ff7a00; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+/* CATEGORIES */
+.categories { padding:50px 20px; text-align:center; }
+.categories h2 { color:#0c9fad; margin-bottom:30px; }
+.category-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.category-card { background:white; padding:20px; border-radius:10px; min-width:180px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center; }
+.category-card img { width:100px; height:100px; object-fit:cover; border-radius:10px; margin-bottom:10px; }
+.categories button{padding:12px 25px; background:#ff7a00; color:white; border:none; border-radius:6px; cursor:pointer;}
+
+/* PRODUCTS */
+.products { padding:50px 20px; background:#e6f2f7; text-align:center; }
+.products h2 { color:#0c9fad; margin-bottom:30px; }
+.product-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.product-card { background:white; padding:20px; border-radius:10px; min-width:220px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center; }
+.product-card img { width:150px; height:150px; object-fit:cover; margin-bottom:10px; }
+.product-card button { padding:10px 20px; margin-top:10px; background:#0c9fad; color:white; border:none; border-radius:5px; cursor:pointer; }
+
+/* OFFERS */
+.offers { padding:50px 20px; text-align:center; background:white; }
+.offers h2 { color:#0c9fad; margin-bottom:30px; }
+.offers-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.offer-card { background:#f5f5f5; padding:20px; border-radius:10px; min-width:220px; }
+
+/* TESTIMONIALS */
+.testimonials { padding:50px 20px; text-align:center; background:#e6f2f7; }
+.testimonials h2 { color:#0c9fad; margin-bottom:30px; }
+.testimonial-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.testimonial { background:white; padding:20px; border-radius:10px; min-width:250px; }
+
+/* CTA */
+.cta { background:#0c9fad; color:white; padding:50px 20px; text-align:center; }
+.cta h2 { margin-bottom:15px; }
+.cta p { margin-bottom:20px; }
+.cta button { padding:12px 25px; background:#ff7a00; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1 { font-size:36px; }
+    .hero p { font-size:18px; }
+    .category-cards, .product-cards, .offers-cards, .testimonial-cards { flex-direction:column; align-items:center; }
+    .category-card, .product-card, .offer-card, .testimonial { margin:0 auto; }
+}
+/* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- 1. Hero Section -->
+<section class="hero">
+    <h1>Shop Medical Products</h1>
+    <p>Quality healthcare products delivered to your doorstep.</p>
+    <button onclick="window.location.href='4042.html'">Shop Now</button>
+</section>
+
+<!-- 2. Categories -->
+<section class="categories">
+    <h2>Categories</h2>
+    <div class="category-cards">
+        <div class="category-card">
+            <img src="medical2.webp" alt="Masks">
+            <h3>Masks</h3>
+            <button onclick="window.location.href='4042.html'">View Products</button>
+        </div>
+        <div class="category-card">
+            <img src="medical3.webp" alt="Sanitizers">
+            <h3>Sanitizers</h3>
+            <button onclick="window.location.href='4042.html'">View Products</button>
+        </div>
+        <div class="category-card">
+            <img src="medical4.webp" alt="Gloves">
+            <h3>Gloves</h3>
+            <button onclick="window.location.href='4042.html'">View Products</button>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Products -->
+<section class="products">
+    <h2>Popular Products</h2>
+    <div class="product-cards">
+        <div class="product-card">
+            <img src="medical6.webp" alt="Product">
+            <h3>N95 Masks</h3>
+            <p>Pack of 50 masks</p>
+            <button onclick="window.location.href='4042.html'">Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <img src="medical14.webp" alt="Product">
+            <h3>Hand Sanitizer</h3>
+            <p>500ml bottle</p>
+            <button onclick="window.location.href='4042.html'">Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <img src="medical7.webp" alt="Product">
+            <h3>Medical Gloves</h3>
+            <p>Pack of 100 gloves</p>
+            <button onclick="window.location.href='4042.html'">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Offers -->
+<section class="offers">
+    <h2>Special Offers</h2>
+    <div class="offers-cards">
+        <div class="offer-card">
+            <h3>Buy 2 Get 1 Free</h3>
+            <p>On selected masks</p>
+        </div>
+        <div class="offer-card">
+            <h3>20% Off</h3>
+            <p>On sanitizers</p>
+        </div>
+        <div class="offer-card">
+            <h3>Free Shipping</h3>
+            <p>On orders above ₹1000</p>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Testimonials -->
+<section class="testimonials">
+    <h2>Customer Reviews</h2>
+    <div class="testimonial-cards">
+        <div class="testimonial">"High-quality products delivered quickly."<br><strong>- Sarah P.</strong></div>
+        <div class="testimonial">"Very satisfied with the shop and service."<br><strong>- John D.</strong></div>
+        <div class="testimonial">"Easy to order and prompt delivery."<br><strong>- Lisa W.</strong></div>
+    </div>
+</section>
+
+<!-- 6. CTA -->
+<section class="cta">
+    <h2>Ready to Shop?</h2>
+    <p>Explore our wide range of medical solutions products now!</p>
+    <button onclick="window.location.href='4042.html'">Start Shopping</button>
+</section>
+<br>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+// Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+
+</script>
+
+</body>
+</html>

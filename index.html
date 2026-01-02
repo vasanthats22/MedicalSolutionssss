@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions - Home1</title>
+
+<style>
+    /* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Segoe UI, Arial, sans-serif;
+}
+html, body {
+  overflow-x: hidden;
+  background: #f6f8fb;
+}
+
+/* ================= COMMON ================= */
+
+section {
+  padding: 90px 0; /* top-bottom only */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px; /* uniform side padding */
+}
+
+.center {
+  text-align: center;
+}
+p {
+  color: #555;
+  line-height: 1.8;
+}
+a {
+  text-decoration: none;
+}
+
+/* ================= BUTTON ================= */
+.btn {
+  padding: 14px 36px;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s;
+  display: inline-block;
+}
+.btn-primary {
+  background: #0c9fad;
+}
+.btn-primary:hover {
+  background: #0a7f89;
+}
+.btn-secondary {
+  background: #ff7a00;
+}
+.btn-secondary:hover {
+  background: #e16a00;
+}
+.btn-light {
+  background: #fff;
+  color: #0c9fad;
+  border: 2px solid #0c9fad;
+}
+.btn-light:hover {
+  background: #0c9fad;
+  color: #fff;
+}
+
+/* ================= ANIMATIONS ================= */
+.anim {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.9s ease;
+}
+.anim-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: 1s ease;
+}
+.anim-right {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: 1s ease;
+}
+.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* ================= HERO VIDEO ================= */
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+}
+.hero video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .65);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 850px;
+}
+.hero h1 {
+  font-size: 52px;
+  margin-bottom: 20px;
+}
+.hero p {
+  font-size: 19px;
+  margin-bottom: 30px;
+  color: #e5e5e5;
+}
+.hero,
+.info-bar,
+.counters,
+.banner,
+.cta {
+  width: 100vw; /* full width */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* ================= INFO BAR ================= */
+.info-bar {
+  background: #0c9fad;
+  color: #fff;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+.info-box {
+  font-size: 18px;
+  padding: 20px 10px;
+  transition: .4s;
+}
+.info-box:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+/* ================= SERVICES ================= */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+.card {
+  background: #fff;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+  transition: .4s;
+  text-align: center;
+}
+.card:hover {
+  transform: translateY(-10px);
+}
+.card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+/* ================= SPLIT ================= */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+.split img {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
+}
+
+/* ================= PRODUCTS ================= */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+  text-align: center;
+  transition: .4s;
+  height: 100%;
+}
+.product-card:hover {
+  transform: translateY(-10px);
+}
+
+/* ================= COUNTERS ================= */
+.counters {
+  background: #0b1a33;
+  color: #fff;
+}
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  text-align: center;
+}
+.counter {
+  font-size: 46px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ================= BANNER ================= */
+.banner {
+  background: url('medical1.webp') center/cover;
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 16px;
+}
+.banner h2 {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+.banner p {
+  font-size: 18px;
+}
+
+/* ================= TESTIMONIALS ================= */
+.testi-slider {
+  display: flex;
+  overflow: hidden;
+  gap: 20px;
+}
+.testi {
+  min-width: 250px;
+  background: #f1f5f9;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .05);
+  transition: .4s;
+  text-align: center;
+}
+.testi:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= LOGOS ================= */
+.logos-slider {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 20px 0;
+  animation: scrollLogos 20s linear infinite;
+}
+.logos-slider img {
+  width: 100px;
+  filter: grayscale(1);
+  opacity: .7;
+  transition: .4s;
+  margin-right: 30px;
+}
+.logos-slider img:hover {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.1);
+}
+@keyframes scrollLogos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ================= FAQ ================= */
+.faq {
+  max-width: 900px;
+  margin: auto;
+}
+.faq-item {
+  background: #fff;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .05);
+}
+.faq-item h4 {
+  padding: 18px 20px;
+  cursor: pointer;
+  position: relative;
+}
+.faq-item h4::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  font-size: 24px;
+  transition: .3s;
+}
+.faq-item.active h4::after {
+  content: '-';
+}
+.faq-item p {
+  padding: 0 20px 18px 20px;
+  display: none;
+}
+
+/* ================= CTA ================= */
+.cta {
+  background: #0c9fad;
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 16px;
+}
+.cta h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+.cta p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #0c9fad;
+  color: #fff;
+  padding: 60px 20px 30px 20px;
+}
+footer .footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+footer h3 {
+  font-size: 18px;
+  color: #6a3cff; /* same as screenshot */
+  margin-bottom: 20px;
+}
+footer p, footer a, footer li {
+  color: #fff;
+  line-height: 1.8;
+}
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+footer ul li {
+  margin-bottom: 12px;
+}
+footer ul li a {
+  color: #fff;
+  transition: .3s;
+}
+footer ul li a:hover {
+  color: #e0e0e0;
+}
+footer .newsletter input[type="email"] {
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 15px;
+  width: 100%;
+}
+footer .newsletter button {
+  padding: 12px 20px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(to right, #0099ff, #00ff99);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .3s;
+}
+footer .newsletter button:hover {
+  opacity: 0.9;
+}
+footer .footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  border-top: 1px solid rgba(255,255,255,.3);
+  padding-top: 20px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:992px) {
+  .grid-4, .info-grid, .counter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .split {
+    grid-template-columns: 1fr;
+  }
+  .hero h1 {
+    font-size: 38px;
+  }
+  .banner h2 {
+    font-size: 32px;
+  }
+  .cta h2 {
+    font-size: 28px;
+  }
+}
+@media(max-width:500px) {
+  .grid-4, .info-grid, .counter-grid {
+    grid-template-columns: 1fr;
+    object-fit: cover;
+  }
+  .hero h1 {
+    font-size: 30px;
+  }
+  .banner h2 {
+    font-size: 24px;
+  }
+  .cta h2 {
+    font-size: 22px;
+  }
+}
+@media(max-width:768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .logos-slider img {
+    width: 70px;
+  }
+}
+
+
+/* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- 1 HERO -->
+<section class="hero">
+<video autoplay muted loop>
+<source src="medicalvideo2.mp4" type="video/mp4">
+</video>
+<div class="hero-content">
+<h1 class="anim">Medical Solutions for Modern Healthcare</h1>
+<p class="anim">Delivering trusted medical products, equipment, and services with quality, care, and innovation.</p>
+<a href="404.html" class="btn btn-secondary anim">Get Started</a>
+</div>
+</section>
+
+<!-- 2 INFO BAR -->
+<section class="info-bar">
+<div class="container info-grid">
+<div class="info-box anim">✔ ISO Certified Company</div>
+<div class="info-box anim">✔ Trusted by Hospitals</div>
+<div class="info-box anim">✔ Pan India Delivery</div>
+<div class="info-box anim">✔ 24/7 Medical Support</div>
+</div>
+</section>
+
+<!-- 3 SERVICES -->
+<section>
+<div class="container center">
+<h2 class="anim">Our Medical Services</h2>
+<p class="anim">Comprehensive healthcare solutions for hospitals, clinics, and individuals.</p>
+</div>
+<div class="container grid-4">
+<div class="card anim-left"><img src="medical2.webp"><h3>Medical Equipment</h3><p>Advanced diagnostics & treatment equipment.</p><a href="404.html" class="btn btn-primary">Learn More</a></div>
+<div class="card anim"><img src="medical3.webp"><h3>Hospital Supplies</h3><p>Consumables & essentials for hospitals.</p><a href="404.html" class="btn btn-primary">Learn More</a></div>
+<div class="card anim"><img src="medical4.webp"><h3>Diagnostics</h3><p>Reliable tools for health assessment.</p><a href="404.html" class="btn btn-primary">Learn More</a></div>
+<div class="card anim-right"><img src="medical5.webp"><h3>Pharmacy Support</h3><p>Safe pharmaceutical products.</p><a href="404.html" class="btn btn-primary">Learn More</a></div>
+</div>
+</section>
+
+<!-- 4 ABOUT -->
+<section>
+<div class="container split">
+<div>
+<h2 class="anim-left">Who We Are</h2>
+<p class="anim-left">Medical Solutions is a trusted healthcare provider offering innovative and reliable medical products.</p>
+<p class="anim-left">We focus on quality, safety, and customer satisfaction for hospitals and individuals.</p>
+<a href="404.html" class="btn btn-secondary anim-left">Read More</a>
+</div>
+<img src="medical1.webp" class="anim-right">
+</div>
+</section>
+
+<!-- 5 PRODUCTS -->
+<section>
+<div class="container center">
+<h2 class="anim">Featured Medical Products</h2>
+<p class="anim">Carefully selected products for daily healthcare needs.</p>
+</div>
+<div class="container product-grid">
+<div class="product-card anim"><img src="medical7.webp"><h4>N95 Mask</h4><p>High protection mask</p><a href="404.html" class="btn btn-primary">Buy</a></div>
+<div class="product-card anim"><img src="medical8.webp"><h4>Medical Gloves</h4><p>Safe & hygienic</p><a href="404.html" class="btn btn-primary">Buy</a></div>
+<div class="product-card anim"><img src="medical9.webp"><h4>Thermometer</h4><p>Accurate readings</p><a href="404.html" class="btn btn-primary">Buy</a></div>
+<div class="product-card anim"><img src="medical10.webp"><h4>First Aid Kit</h4><p>Emergency ready</p><a href="404.html" class="btn btn-primary">Buy</a></div>
+</div>
+</section>
+
+<!-- 6 COUNTERS -->
+<section class="counters">
+<div class="container counter-grid">
+<div class="anim"><div class="counter" data-target="12">0</div><p>Years Experience</p></div>
+<div class="anim"><div class="counter" data-target="600">0</div><p>Partner Hospitals</p></div>
+<div class="anim"><div class="counter" data-target="80000">0</div><p>Happy Clients</p></div>
+<div class="anim"><div class="counter" data-target="24">0</div><p>24/7 Support</p></div>
+</div>
+</section>
+
+<!-- 7 BANNER -->
+<section class="banner">
+<h2 class="anim">Fast & Reliable Medical Delivery Across India</h2>
+<p class="anim">Safe packaging and on-time delivery guaranteed.</p>
+<a href="404.html" class="btn btn-secondary anim">Learn More</a>
+</section>
+
+<!-- 8 TESTIMONIALS -->
+<section>
+<div class="container center">
+<h2 class="anim">Client Testimonials</h2>
+</div>
+<div class="container testi-slider">
+<div class="testi anim">"Excellent product quality and fast service."</div>
+<div class="testi anim">"Very professional medical partner."</div>
+<div class="testi anim">"Reliable healthcare solutions provider."</div>
+<div class="testi anim">"Highly recommended for hospitals."</div>
+</div>
+</section>
+
+<!-- 9 LOGOS -->
+<!-- <section>
+<div class="container logos-slider">
+<img src="" class="anim">
+<img src="" class="anim">
+<img src="" class="anim">
+<img src="" class="anim">
+<img src="" class="anim">
+<img src="" class="anim">
+</div>
+</section> -->
+
+<!-- 10 FAQ -->
+<section>
+<div class="container center">
+<h2 class="anim">Frequently Asked Questions</h2>
+</div>
+<div class="faq">
+<div class="faq-item anim">
+<h4>What products do you offer?</h4>
+<p>We offer medical equipment, consumables, PPE, and hospital supplies.</p>
+</div>
+<div class="faq-item anim">
+<h4>Do you deliver nationwide?</h4>
+<p>Yes, we deliver across India safely and quickly.</p>
+</div>
+<div class="faq-item anim">
+<h4>Are your products certified?</h4>
+<p>Yes, all our products are ISO certified and quality tested.</p>
+</div>
+</div>
+
+<!-- 11 CTA -->
+<section class="cta">
+<h2 class="anim">Need Trusted Medical Supplies?</h2>
+<p class="anim">Contact us today and get the best healthcare solutions.</p>
+<a href="404.html" class="btn btn-secondary anim">Contact Now</a>
+</section>
+
+<!-- 12 VIDEO BANNER -->
+<section class="banner">
+<h2 class="anim">Watch Our Medical Solutions in Action</h2>
+<p class="anim">See how we help hospitals and individuals.</p>
+<a href="404.html" class="btn btn-secondary anim">Watch Now</a>
+</section>
+
+<!-- 13 PARTNERS -->
+<section>
+<div class="container center">
+<h2 class="anim">Our Partners</h2>
+<p class="anim">We collaborate with top hospitals and medical providers.</p>
+</div>
+<div class="logos-slider">
+<img src="d1.webp" class="anim">
+<img src="d2.webp" class="anim">
+<img src="d3.webp" class="anim">
+<img src="d4.webp" class="anim">
+<img src="d5.webp" class="anim">
+<img src="d6.webp" class="anim">
+<!-- Duplicate logos to ensure continuous scroll -->
+<img src="d1.webp" class="anim">
+<img src="d2.webp" class="anim">
+<img src="d3.webp" class="anim">
+<img src="d4.webp" class="anim">
+<img src="d5.webp" class="anim">
+<img src="d6.webp" class="anim">
+</div>
+</section>
+
+<!-- 14 CALL TO ACTION -->
+<section class="cta">
+<h2 class="anim">Join Our Medical Network</h2>
+<p class="anim">Partner with us to provide quality healthcare solutions.</p>
+<a href="404.html" class="btn btn-secondary anim">Join Now</a>
+</section>
+
+<!-- 15 FINAL BANNER -->
+<section class="banner">
+<h2 class="anim">Quality. Trust. Care.</h2>
+<p class="anim">Medical Solutions - Your Partner in Healthcare Excellence.</p>
+<a href="404.html" class="btn btn-secondary anim">Get Started</a>
+</section>
+<br>
+<br>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '404.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+  // SCROLL ANIMATIONS
+const animated=document.querySelectorAll('.anim,.anim-left,.anim-right');
+const io=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){e.target.classList.add('show')}
+else{e.target.classList.remove('show')}
+});
+},{threshold:0.15});
+animated.forEach(el=>io.observe(el));
+
+// CONTINUOUS COUNTERS
+const counters=document.querySelectorAll('.counter');
+counters.forEach(counter=>{
+  let target=parseInt(counter.getAttribute('data-target'));
+  let count=0;
+  const speed=target/200; // speed
+  function update(){
+    count+=speed;
+    if(count<target){
+      counter.innerText=Math.floor(count);
+      requestAnimationFrame(update);
+    }else{
+      counter.innerText=target;
+      setTimeout(()=>{counter.innerText=0; update()},3000); // reset after 3s
+    }
+  }
+  update();
+});
+
+// FAQ TOGGLE
+const faqItems=document.querySelectorAll('.faq-item h4');
+faqItems.forEach(item=>{
+item.addEventListener('click',()=>{
+item.parentElement.classList.toggle('active');
+const p=item.nextElementSibling;
+if(item.parentElement.classList.contains('active')){
+p.style.display='block';
+}else{p.style.display='none'}
+});
+});
+
+// SIMPLE SLIDERS
+function slider(containerSelector,speed=2000){
+  const container=document.querySelector(containerSelector);
+  if(!container) return;
+  let scrollAmount=0;
+  setInterval(()=>{
+    scrollAmount+=1;
+    if(scrollAmount>container.scrollWidth-container.clientWidth) scrollAmount=0;
+    container.scrollTo({left:scrollAmount,behavior:'smooth'});
+  },speed/50);
+}
+slider('.testi-slider');
+slider('.logos-slider',1500);
+
+// Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+</script>
+
+</body>
+</html>

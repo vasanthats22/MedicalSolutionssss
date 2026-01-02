@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  background: #f5f5f5;
+}
+/* ===== BLOG PAGE MID CONTENT ===== */
+.blog-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Hero */
+.blog-hero {
+  background: url('blog1.webp') center/cover no-repeat;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+}
+.blog-hero h1 {
+  color: #fff;
+  font-size: 36px;
+  background: rgba(0,0,0,0.5);
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Blog Post */
+.blog-post {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+.blog-post img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.blog-post-content {
+  padding: 20px;
+}
+.blog-post-content h2 {
+  color: #0c9fad;
+  margin-bottom: 10px;
+}
+.blog-post-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Highlight */
+.blog-highlight {
+  background: #0c9fad;
+  color: #fff;
+  padding: 40px 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+.blog-highlight h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+/* Tips */
+.blog-tips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.blog-tip {
+  flex: 1 1 calc(33.333% - 20px);
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.blog-tip h3 {
+  color: #ff7a00;
+  margin-bottom: 10px;
+}
+
+/* Subscribe */
+.blog-subscribe {
+  background: #097c86;
+  color: #fff;
+  padding: 30px 20px;
+  text-align: center;
+  border-radius: 15px;
+}
+.blog-subscribe input {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  width: 260px;
+  max-width: 80%;
+  margin-bottom: 10px;
+}
+.blog-subscribe button {
+  padding: 12px 20px;
+  background: #ff7a00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* FAQ */
+.blog-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.blog-faq-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.blog-faq-item h3 {
+  color: #0c9fad;
+}
+
+/* Author */
+.blog-author {
+  text-align: center;
+}
+.blog-author img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.blog-author h3 {
+  color: #ff7a00;
+  margin-top: 10px;
+}
+.blog-author p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+/* CTA */
+.blog-cta {
+  background: #0c9fad;
+  color: #fff;
+  padding: 40px 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+.blog-cta button {
+  padding: 12px 25px;
+  background: #ff7a00;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .blog-tip { flex: 1 1 calc(50% - 20px); }
+}
+@media (max-width: 768px) {
+  .blog-hero h1 { font-size: 26px; }
+  .blog-tip { flex: 1 1 100%; }
+}
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- ✅ MIDDLE CONTENT REMOVED INTENTIONALLY -->
+ <div class="blog-container">
+
+  <div class="blog-hero">
+    <h1>Latest Medical Insights & News</h1>
+  </div>
+
+  <div class="blog-post">
+    <img src="blog2.webp" alt="">
+    <div class="blog-post-content">
+      <h2>Top 5 Ways to Boost Immunity</h2>
+      <p>Discover scientifically proven methods to enhance your immune system.</p>
+    </div>
+  </div>
+
+  <div class="blog-post">
+    <img src="blog3.webp" alt="">
+    <div class="blog-post-content">
+      <h2>Understanding Common Headaches</h2>
+      <p>Learn the different types of headaches and how to manage them.</p>
+    </div>
+  </div>
+
+  <div class="blog-highlight">
+    <h2>Medical Tip of the Week</h2>
+    <p>Stay hydrated, sleep well, and take screen breaks.</p>
+  </div>
+
+  <div class="blog-tips">
+    <div class="blog-tip">
+      <h3>Nutrition Tips</h3>
+      <p>Eat balanced meals daily.</p>
+    </div>
+    <div class="blog-tip">
+      <h3>Mental Health</h3>
+      <p>Practice mindfulness and exercise.</p>
+    </div>
+    <div class="blog-tip">
+      <h3>Physical Exercise</h3>
+      <p>30 minutes of activity daily.</p>
+    </div>
+  </div>
+
+  <div class="blog-subscribe">
+  <h2>Subscribe to Our Newsletter</h2>
+
+  <input type="email" id="subscribeEmail" placeholder="Your Email">
+  <span id="subscribeError" style="display:none; color:#ffcc00; font-size:14px; margin-top:6px;">
+    Please enter a valid email address
+  </span>
+
+  <br><br>
+  <button id="subscribeBtn">Subscribe</button>
+</div>
+
+
+  <div class="blog-faq">
+    <div class="blog-faq-item"><h3>How often should I visit a doctor?</h3></div>
+    <div class="blog-faq-item"><h3>Best preventive practices?</h3></div>
+    <div class="blog-faq-item"><h3>Healthy diet tips?</h3></div>
+  </div>
+
+  <div class="blog-author">
+    <img src="docc8.webp" alt="">
+    <h3>Dr. Pratima S</h3>
+    <p>Medical expert sharing healthcare insights.</p>
+  </div>
+
+  <div class="blog-cta">
+    <h2>Get In Touch With Us</h2>
+    <button onclick="location.href='4042.html'">Contact Now</button>
+  </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+
+<script>
+/* ===== LOAD HEADER ===== */
+fetch('header2.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+
+    const menuBtn = document.querySelector('.menu-btn');
+    const homeArrow = document.querySelector('.home-link span');
+
+    menuBtn?.addEventListener('click', () => {
+      document.getElementById('navBar').classList.toggle('active');
+    });
+
+    homeArrow?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.target.closest('li')?.classList.toggle('show-submenu');
+    });
+  });
+
+/* ===== LOAD FOOTER ===== */
+fetch('footer2.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('footer-placeholder').innerHTML = data;
+
+    const subscribeBtn = document.getElementById('subscribeButton');
+    const emailInput = document.getElementById('newsletterEmail');
+    const emailError = document.getElementById('emailError');
+
+    subscribeBtn?.addEventListener('click', (e) => {
+      const email = emailInput.value.trim();
+      const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+      if (!valid.test(email)) {
+        e.preventDefault();
+        emailError.style.display = 'block';
+        emailInput.style.border = '2px solid #ff7a00';
+      } else {
+        window.location.href = '4042.html';
+      }
+    });
+
+    emailInput?.addEventListener('input', () => {
+      emailError.style.display = 'none';
+      emailInput.style.border = 'none';
+    });
+  });
+
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  const emailInput = document.getElementById('subscribeEmail');
+  const errorMsg = document.getElementById('subscribeError');
+
+  subscribeBtn.addEventListener('click', function () {
+    const email = emailInput.value.trim();
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+      errorMsg.style.display = 'block';
+      emailInput.style.border = '2px solid #ff7a00';
+    } else {
+      errorMsg.style.display = 'none';
+      emailInput.style.border = 'none';
+      window.location.href = '4042.html';
+    }
+  });
+
+  emailInput.addEventListener('input', function () {
+    errorMsg.style.display = 'none';
+    emailInput.style.border = 'none';
+  });
+
+
+/* ===== REMOVE LOADER AFTER LOAD ===== */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('page-loader').classList.add('hide');
+  }, 1200);
+});
+</script>
+
+</body>
+</html>

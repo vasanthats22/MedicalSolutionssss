@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services - Medical Solutions</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+        color: #0c9fad;
+    }
+
+    /* HERO SECTION */
+    .hero {
+        width: 100%;
+        height: 300px;
+        background: url('medical23.webp') center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        background: rgba(0,0,0,0.45);
+        padding: 15px 25px;
+        border-radius: 8px;
+    }
+
+    /* SECTION STYLES */
+    section {
+        padding: 60px 5%;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    .section-content {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .section-content img {
+        width: 45%;
+        border-radius: 10px;
+        object-fit: cover;
+        max-height: 300px;
+    }
+
+    .section-content .text {
+        width: 50%;
+        font-size: 16px;
+    }
+
+    .section-content button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        border: none;
+        background: #0c9fad;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background 0.3s;
+    }
+
+    .section-content button:hover {
+        background: #097c86;
+    }
+
+    .service-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 8px rgba(0,0,0,0.08);
+        transition: transform 0.3s;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .service-card img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+
+    .service-card button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        border: none;
+        background: #ff7a00;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+    }
+
+    .service-card button:hover {
+        background: #e16a00;
+    }
+
+    .section-bg button{
+        background-color: #ff7a00;
+        color: white;
+        margin-top: 10px;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+    }
+
+    .section-bg {
+        background: url('medical24.webp') center/cover no-repeat;
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .section-bg h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-shadow: 0 0 6px rgba(0,0,0,0.7);
+    }
+
+    .section-bg p {
+        max-width: 800px;
+        margin: auto;
+        font-size: 18px;
+        line-height: 1.6;
+        text-shadow: 0 0 4px rgba(0,0,0,0.6);
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+        .section-content img,
+        .section-content .text {
+            width: 48%;
+        }
+        .services-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .section-content img,
+        .section-content .text {
+            width: 100%;
+            text-align: center;
+        }
+        .section-content {
+            flex-direction: column;
+        }
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 22px;
+        }
+        .section-title {
+            font-size: 22px;
+        }
+        .section-content .text {
+            font-size: 15px;
+        }
+        .section-bg h2 {
+            font-size: 22px;
+        }
+        .section-bg p {
+            font-size: 15px;
+        }
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1>Our Services</h1>
+</section>
+
+<!-- SECTION 1: CONSULTATION -->
+<section>
+    <h2 class="section-title">Medical Consultation</h2>
+    <div class="section-content">
+        <img src="medical25.webp" alt="Consultation">
+        <div class="text">
+            <p>We provide expert consultation services to hospitals and clinics, ensuring that medical staff have access to the right guidance and products for patient care.</p>
+            <button onclick="location.href='404.html'">Learn More</button>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: SUPPLY CHAIN -->
+<section class="section-bg">
+    <h2>Efficient Supply Chain</h2>
+    <p>Our supply chain management ensures timely delivery of medical supplies across India, keeping your inventory stocked and operations smooth.</p>
+    <button onclick="location.href='404.html'">Explore Services</button>
+</section>
+
+<!-- SECTION 3: TRAINING -->
+<section>
+    <h2 class="section-title">Training & Support</h2>
+    <div class="section-content">
+        <div class="text">
+            <p>We offer training for healthcare professionals on proper usage of medical devices and safety procedures to improve service quality and reduce errors.</p>
+            <button onclick="location.href='404.html'">View Training</button>
+        </div>
+        <img src="medical26.webp" alt="Training">
+    </div>
+</section>
+
+<!-- SECTION 4: PRODUCT RANGE -->
+<section class="section-bg">
+    <h2>Wide Product Range</h2>
+    <p>From PPE kits and masks to thermometers and oximeters, our extensive product range ensures you have access to all essential medical equipment.</p>
+    <button onclick="location.href='404.html'">See Products</button>
+</section>
+
+<!-- SECTION 5: FAST DELIVERY -->
+<section>
+    <h2 class="section-title">Fast Delivery</h2>
+    <div class="section-content">
+        <img src="medical27.webp" alt="Delivery">
+        <div class="text">
+            <p>We prioritize speed and reliability, delivering medical supplies safely and quickly to hospitals, clinics, and individuals across India.</p>
+            <button onclick="location.href='404.html'">Learn More</button>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 6: CUSTOMER SUPPORT -->
+<section class="section-bg">
+    <h2>Customer Support</h2>
+    <p>Our dedicated support team is available to answer queries, provide guidance, and assist with orders, ensuring a seamless experience for our clients.</p>
+    <button onclick="location.href='404.html'">Contact Us</button>
+</section>
+
+<!-- SECTION 7: QUALITY ASSURANCE -->
+<section>
+    <h2 class="section-title">Quality Assurance</h2>
+    <div class="section-content">
+        <div class="text">
+            <p>All our products meet international safety standards, and we strictly monitor quality to guarantee effectiveness and reliability for healthcare professionals.</p>
+            <button onclick="location.href='404.html'">View Standards</button>
+        </div>
+        <img src="medical22.webp" alt="Quality Assurance">
+    </div>
+</section>
+
+<!-- SECTION 8: SPECIAL SERVICES GRID -->
+<section>
+    <h2 class="section-title">Special Services</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <img src="ss1.webp" alt="Consultation">
+            <h3>Expert Consultation</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="ss2.webp" alt="Delivery">
+            <h3>Fast Delivery</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="ss3.webp" alt="Equipment">
+            <h3>Medical Equipment</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="ss4.webp" alt="Support">
+            <h3>24/7 Support</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="d5.webp" alt="Training">
+            <h3>Training Programs</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="ss6.webp" alt="Quality">
+            <h3>Quality Assurance</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="ss7.webp" alt="Supply">
+            <h3>Supply Chain</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="service-card">
+            <img src="ss8.webp" alt="Hospitals">
+            <h3>Hospital Partnerships</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '404.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+  // Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+</script>
+</script>
+
+</body>
+</html>

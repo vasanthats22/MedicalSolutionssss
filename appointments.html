@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions - Appointments</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+html, body { width:100%; overflow-x:hidden; background:#f5f5f5; }
+
+/* BODY LAYOUT */
+body { display:flex; flex-direction:column; }
+
+/* HERO SECTION */
+.hero {
+    background:url('medical1.webp') center/cover no-repeat;
+    text-align:center; color:white;
+     padding:80px 20px;
+}
+.hero h1 { font-size:48px; margin-bottom:15px; color: black; }
+.hero p { font-size:20px; margin-bottom:20px; color: black; }
+.hero button { padding:12px 25px; background:#ff7a00; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+/* BOOKING FORM */
+.booking-form { padding:50px 20px; background:#f5f5f5; display:flex; justify-content:center; }
+.booking-form form {
+    max-width:600px; width:100%; display:flex; flex-direction:column; gap:15px;
+    background:white; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+.booking-form h2 { text-align:center; color:#0c9fad; margin-bottom:20px; }
+.booking-form input, .booking-form select, .booking-form textarea { padding:12px; border:1px solid #ccc; border-radius:5px; width:100%; }
+.booking-form button { padding:12px; background:#0c9fad; color:white; border:none; border-radius:5px; cursor:pointer; }
+
+/* DOCTORS */
+.doctors { padding:50px 20px; background:white; text-align:center; }
+.doctors h2 { color:#0c9fad; margin-bottom:30px; }
+.doctors-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.doctors-card { background:#f5f5f5; padding:20px; border-radius:10px; min-width:220px; text-align:center; }
+.doctors-card img { width:100px; border-radius:50%; margin-bottom:10px; }
+.doctors-card button{padding:12px; background:#0c9fad; color:white; border:none; border-radius:5px; cursor:pointer;}
+
+/* SCHEDULE */
+.schedule { padding:50px 20px; background:#e6f2f7; text-align:center; }
+.schedule h2 { color:#0c9fad; margin-bottom:30px; }
+.schedule-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.schedule-cards div { background:white; padding:20px; border-radius:10px; min-width:180px; text-align:center; }
+
+/* HOW IT WORKS */
+.how-it-works { padding:50px 20px; background:white; text-align:center; }
+.how-it-works h2 { color:#0c9fad; margin-bottom:30px; }
+.how-steps { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; }
+.how-step { min-width:200px; }
+
+/* TESTIMONIALS */
+.testimonials { padding:50px 20px; background:#e6f2f7; text-align:center; }
+.testimonials h2 { color:#0c9fad; margin-bottom:30px; }
+.testimonials-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.testimonial { background:white; padding:20px; border-radius:10px; min-width:250px; }
+
+/* FAQ */
+.faq { padding:50px 20px; background:white; text-align:center; }
+.faq h2 { color:#0c9fad; margin-bottom:30px; }
+.faq-content { max-width:800px; margin:0 auto; text-align:left; }
+
+/* CTA */
+.cta { background:#0c9fad; color:white; padding:50px 20px; text-align:center; }
+.cta h2 { margin-bottom:15px; }
+.cta p { margin-bottom:20px; }
+.cta button { padding:12px 25px; background:#ff7a00; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1 { font-size:36px; }
+    .hero p { font-size:18px; }
+    .booking-form form { width:90%; margin:0 auto; }
+    .doctors-cards, .schedule-cards, .how-steps, .testimonials-cards { flex-direction:column; align-items:center; }
+    .doctors-card, .schedule-cards div, .how-step, .testimonial { margin:0 auto; }
+}
+/* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- 1. Hero Section -->
+<section class="hero">
+    <h1>Book Your Appointment</h1>
+    <p>Fast and easy appointment booking with our top doctors.</p>
+    <!-- <button onclick="window.location.href='4042.html'">Book Now</button> -->
+</section>
+
+<!-- 2. Booking Form -->
+<section class="booking-form">
+    <form id="appointmentForm">
+        <h2>Book Your Slot</h2>
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="mobile" placeholder="Mobile Number" required>
+        <select id="department" required>
+            <option value="">Select Department</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="neurology">Neurology</option>
+            <option value="pediatrics">Pediatrics</option>
+            <option value="orthopedics">Orthopedics</option>
+        </select>
+        <input type="date" id="date" required>
+        <textarea id="notes" placeholder="Additional Notes" rows="3" required></textarea>
+        <button type="submit">Confirm Appointment</button>
+    </form>
+</section>
+
+<!-- 3. Available Doctors -->
+<section class="doctors">
+    <h2>Our Top Doctors</h2>
+    <div class="doctors-cards">
+        <div class="doctors-card">
+            <img src="docc1.webp" alt="Doctor">
+            <h3>Dr. John Smith</h3>
+            <p>Cardiologist</p>
+            <button onclick="window.location.href='4042.html'">View Profile</button>
+        </div>
+        <div class="doctors-card">
+            <img src="docc2.webp" alt="Doctor">
+            <h3>Dr. Lisa Wong</h3>
+            <p>Neurologist</p>
+            <button onclick="window.location.href='4042.html'">View Profile</button>
+        </div>
+        <div class="doctors-card">
+            <img src="docc6.webp" alt="Doctor">
+            <h3>Dr. Mark Lee</h3>
+            <p>Pediatrician</p>
+            <button onclick="window.location.href='4042.html'">View Profile</button>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Appointment Schedule -->
+<section class="schedule">
+    <h2>Available Appointment Slots</h2>
+    <div class="schedule-cards">
+        <div>Mon: 10:00 AM - 4:00 PM</div>
+        <div>Tue: 11:00 AM - 5:00 PM</div>
+        <div>Wed: 10:00 AM - 4:00 PM</div>
+        <div>Thu: 11:00 AM - 5:00 PM</div>
+        <div>Fri: 10:00 AM - 3:00 PM</div>
+        <div>Sat: 10:00 AM - 2:00 PM</div>
+    </div>
+</section>
+
+<!-- 5. How It Works -->
+<section class="how-it-works">
+    <h2>How Appointment Booking Works</h2>
+    <div class="how-steps">
+        <div class="how-step"><h3>1. Select Department</h3><p>Choose the department suitable for your treatment.</p></div>
+        <div class="how-step"><h3>2. Choose Doctor</h3><p>Pick a doctor based on availability and specialization.</p></div>
+        <div class="how-step"><h3>3. Pick Time Slot</h3><p>Select a convenient date and time from the available slots.</p></div>
+        <div class="how-step"><h3>4. Confirm Booking</h3><p>Fill your details and confirm the appointment instantly.</p></div>
+    </div>
+</section>
+
+<!-- 6. Testimonials -->
+<section class="testimonials">
+    <h2>What Patients Say</h2>
+    <div class="testimonials-cards">
+        <div class="testimonial">"Excellent service and very easy to book appointments online!"<br><strong>- Jane D.</strong></div>
+        <div class="testimonial">"Professional doctors and friendly staff made my visit smooth."<br><strong>- Mark S.</strong></div>
+        <div class="testimonial">"Booking an appointment was quick and hassle-free."<br><strong>- Lisa W.</strong></div>
+    </div>
+</section>
+
+<!-- 7. FAQ -->
+<section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-content">
+        <p><strong>Q1:</strong> How can I change my appointment?</p>
+        <p><strong>A:</strong> You can edit your booking using your registered email or phone number.</p>
+        <p><strong>Q2:</strong> Can I choose a specific doctor?</p>
+        <p><strong>A:</strong> Yes, all doctors and their schedules are displayed while booking.</p>
+        <p><strong>Q3:</strong> Is there an online payment option?</p>
+        <p><strong>A:</strong> Yes, you can pay securely while confirming the appointment.</p>
+    </div>
+</section>
+
+<!-- 8. Call to Action -->
+<section class="cta">
+    <h2>Ready to Book Your Appointment?</h2>
+    <p>Schedule your visit with our expert medical team today!</p>
+    <button onclick="window.location.href='4042.html'">Book Appointment Now</button>
+</section>
+
+<br><br>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+
+// Name field validation: allow letters and spaces only
+const nameField = document.getElementById('name');
+nameField.addEventListener('input', function() {
+    this.value = this.value.replace(/[^a-zA-Z\s]/g,'');
+});
+
+// Form submit validation
+document.getElementById('appointmentForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = nameField.value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const department = document.getElementById('department').value;
+    const date = document.getElementById('date').value;
+    const notes = document.getElementById('notes').value.trim();
+
+    if(!name || !email || !mobile || !department || !date || !notes){
+        alert('All fields are mandatory!');
+        return;
+    }
+    window.location.href = '4042.html';
+});
+
+// Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+</script>
+
+</body>
+</html>

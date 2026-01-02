@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+
+/* BODY AND PAGE LAYOUT */
+html, body { width:100%; height:100%; overflow-x:hidden; background:#f5f5f5; }
+body { display:flex; flex-direction:column; min-height:100vh; }
+
+/* CONTAINER WRAPPER */
+.page-container { flex:1; display:flex; flex-direction:column; }
+
+/* CONTENT WRAPPER (SIDEBAR + MAIN) */
+.content-wrapper { flex:1; display:flex; overflow-x:hidden; }
+
+/* SIDEBAR */
+.sidebar {
+    width:250px;
+    background:#0c9fad;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    transition:0.3s;
+}
+.sidebar h2 { text-align:center; padding:20px 0; background:#097c86; margin-bottom:10px; }
+.sidebar button { background:none; border:none; color:white; text-align:left; padding:15px 20px; font-size:16px; cursor:pointer; width:100%; transition:0.3s; }
+.sidebar button:hover { background:#097c86; }
+.sidebar button.active { background:#ff7a00; }
+
+/* MAIN CONTENT */
+.main {
+    flex:1;
+    padding:20px;
+    overflow:auto; /* allow scrolling if content is long */
+}
+
+/* CARDS */
+.cards { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px; }
+.card { flex:1; min-width:220px; background:white; border-radius:10px; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+.card h3 { margin-bottom:10px; color:#0c9fad; }
+.card p { font-size:16px; }
+
+/* CHARTS */
+.charts { display:flex; gap:20px; flex-wrap:wrap; }
+.chart-container { flex:1; min-width:300px; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+
+/* TABLES */
+table { width:100%; border-collapse: collapse; margin-top:15px; }
+table, th, td { border:1px solid #ddd; }
+th, td { padding:12px; text-align:left; }
+th { background:#0c9fad; color:white; }
+tr:nth-child(even) { background:#f2f2f2; }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .content-wrapper { flex-direction:column; }
+    .sidebar {
+        width:100%;
+        flex-direction:row;
+        flex-wrap:wrap;
+        overflow-x:auto;
+        justify-content:flex-start;
+        padding:5px 0;
+    }
+    .sidebar button {
+        flex:1 1 45%;
+        text-align:center;
+        margin:5px;
+        padding:12px 0;
+    }
+    .main { padding:15px; }
+    .cards, .charts { flex-direction:column; }
+}
+
+/* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- PAGE CONTAINER -->
+<div class="page-container">
+
+    <!-- CONTENT WRAPPER -->
+    <div class="content-wrapper">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <button class="active" data-content="overview">Overview</button>
+            <button data-content="patients">Patients</button>
+            <button data-content="appointments">Appointments</button>
+            <button data-content="departments">Departments</button>
+            <button data-content="staff">Staff</button>
+            <button data-content="reports">Reports</button>
+            <button data-content="inventory">Inventory</button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main" id="mainContent">
+            <!-- Overview -->
+            <div id="overview">
+                <h2>Hospital Overview</h2>
+                <div class="cards">
+                    <div class="card"><h3>Total Patients</h3><p>1,250 registered patients</p></div>
+                    <div class="card"><h3>Appointments Today</h3><p>75 scheduled appointments</p></div>
+                    <div class="card"><h3>Departments</h3><p>8 active medical departments</p></div>
+                    <div class="card"><h3>Staff Members</h3><p>50 healthcare professionals</p></div>
+                </div>
+                <div class="charts">
+                    <div class="chart-container"><canvas id="patientsChart"></canvas></div>
+                    <div class="chart-container"><canvas id="appointmentsChart"></canvas></div>
+                    <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Patients -->
+            <div id="patients" style="display:none;">
+                <h2>Patient Records</h2>
+                <p>Manage patient information, medical history, and ongoing treatments.</p>
+                <table>
+                    <tr><th>Patient ID</th><th>Name</th><th>Age</th><th>Department</th><th>Last Visit</th></tr>
+                    <tr><td>101</td><td>John Doe</td><td>45</td><td>Cardiology</td><td>2025-11-25</td></tr>
+                    <tr><td>102</td><td>Jane Smith</td><td>32</td><td>Neurology</td><td>2025-11-26</td></tr>
+                    <tr><td>103</td><td>Mark Wilson</td><td>28</td><td>Pediatrics</td><td>2025-11-27</td></tr>
+                </table>
+            </div>
+
+            <!-- Appointments -->
+            <div id="appointments" style="display:none;">
+                <h2>Appointments Schedule</h2>
+                <p>Manage upcoming appointments with doctors, view schedules, and track patient visits.</p>
+                <table>
+                    <tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Status</th></tr>
+                    <tr><td>2025-11-28</td><td>10:00 AM</td><td>John Doe</td><td>Dr. Smith</td><td>Confirmed</td></tr>
+                    <tr><td>2025-11-28</td><td>11:30 AM</td><td>Jane Smith</td><td>Dr. Lee</td><td>Pending</td></tr>
+                    <tr><td>2025-11-28</td><td>02:00 PM</td><td>Mark Wilson</td><td>Dr. Brown</td><td>Confirmed</td></tr>
+                </table>
+            </div>
+
+            <!-- Departments -->
+            <div id="departments" style="display:none;">
+                <h2>Departments Overview</h2>
+                <p>Track department performance, patient count, and active medical services.</p>
+                <ul>
+                    <li>Cardiology: 120 patients</li>
+                    <li>Neurology: 85 patients</li>
+                    <li>Pediatrics: 100 patients</li>
+                    <li>Orthopedics: 70 patients</li>
+                    <li>Radiology: 50 patients</li>
+                    <li>Emergency Care: 90 patients</li>
+                </ul>
+            </div>
+
+            <!-- Staff -->
+            <div id="staff" style="display:none;">
+                <h2>Staff Members</h2>
+                <p>Manage doctors, nurses, and administrative staff with contact details and roles.</p>
+                <table>
+                    <tr><th>Name</th><th>Role</th><th>Department</th><th>Email</th></tr>
+                    <tr><td>Dr. Smith</td><td>Cardiologist</td><td>Cardiology</td><td>smith@medical.com</td></tr>
+                    <tr><td>Dr. Lee</td><td>Neurologist</td><td>Neurology</td><td>lee@medical.com</td></tr>
+                    <tr><td>Dr. Brown</td><td>Pediatrician</td><td>Pediatrics</td><td>brown@medical.com</td></tr>
+                </table>
+            </div>
+
+            <!-- Reports -->
+            <div id="reports" style="display:none;">
+                <h2>Reports & Analytics</h2>
+                <p>View medical reports, weekly analytics, and performance metrics for departments and staff.</p>
+                <ul>
+                    <li>Weekly Patient Admissions</li>
+                    <li>Department-wise Revenue</li>
+                    <li>Staff Attendance Report</li>
+                    <li>Appointment Completion Rate</li>
+                </ul>
+            </div>
+
+            <!-- Inventory -->
+            <div id="inventory" style="display:none;">
+                <h2>Medical Inventory</h2>
+                <p>Manage stock of medicines, medical equipment, and consumables.</p>
+                <table>
+                    <tr><th>Item</th><th>Quantity</th><th>Status</th></tr>
+                    <tr><td>N95 Masks</td><td>500</td><td>In Stock</td></tr>
+                    <tr><td>Gloves</td><td>1000</td><td>In Stock</td></tr>
+                    <tr><td>Sanitizers</td><td>300</td><td>Low Stock</td></tr>
+                    <tr><td>Oximeters</td><td>50</td><td>In Stock</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+<br>
+    <!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '404.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+
+// Sidebar navigation
+const buttons = document.querySelectorAll('.sidebar button');
+const sections = document.querySelectorAll('.main > div');
+buttons.forEach(btn => {
+    btn.addEventListener('click', ()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const content = btn.dataset.content;
+        sections.forEach(sec=>sec.style.display=sec.id===content?'block':'none');
+    });
+});
+
+// Charts
+const patientsChart = new Chart(document.getElementById('patientsChart').getContext('2d'), {
+    type:'pie',
+    data:{ labels:['Cardiology','Neurology','Pediatrics','Orthopedics','Other'],
+           datasets:[{ data:[300,150,200,100,50], backgroundColor:['#0c9fad','#ff7a00','#097c86','#ffb347','#0a7f89'] }]},
+    options:{ responsive:true }
+});
+const appointmentsChart = new Chart(document.getElementById('appointmentsChart').getContext('2d'), {
+    type:'line',
+    data:{ labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+           datasets:[{ label:'Appointments', data:[20,35,30,50,40,25,30], borderColor:'#ff7a00', backgroundColor:'rgba(255,122,0,0.2)', tension:0.4, fill:true }]},
+    options:{ responsive:true }
+});
+const revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
+    type:'bar',
+    data:{ labels:['Cardiology','Neurology','Pediatrics','Orthopedics','Other'],
+           datasets:[{ label:'Revenue (in ₹)', data:[50000,30000,40000,20000,10000], backgroundColor:['#0c9fad','#ff7a00','#097c86','#ffb347','#0a7f89'] }]},
+    options:{ responsive:true }
+});
+
+// Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+
+</script>
+
+</body>
+</html>

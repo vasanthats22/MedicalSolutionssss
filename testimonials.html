@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions - Testimonials</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+html, body { width:100%; overflow-x:hidden; background:#f5f5f5; }
+
+/* BODY */
+body { display:flex; flex-direction:column; }
+
+/* HERO SECTION */
+.hero {
+    background:url('test1.webp') center/cover no-repeat;
+    text-align:center; color:white; padding:80px 20px;
+}
+.hero h1 { font-size:48px; margin-bottom:15px;color: black; }
+.hero p { font-size:20px; margin-bottom:20px;color: black; }
+.hero button { padding:12px 25px; background:#0c9fad; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+/* TESTIMONIAL SECTIONS */
+section { padding:50px 20px; text-align:center; }
+section h2 { color:#0c9fad; margin-bottom:30px; }
+
+/* TESTIMONIAL CARDS */
+.testimonial-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.testimonial-card {
+    background:white; padding:20px; border-radius:10px; min-width:250px; box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+.testimonial-card img { width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px; }
+.testimonial-card p { font-size:16px; margin-bottom:10px; }
+.testimonial-card strong { display:block; color:#ff7a00; }
+
+/* INFO / STATS SECTIONS */
+.info-section { background:#e6f2f7; }
+.info-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.info-card { background:white; padding:20px; border-radius:10px; min-width:220px; }
+
+/* CTA SECTION */
+.cta { background:#0c9fad; color:white; padding:50px 20px; text-align:center; }
+.cta h2 { margin-bottom:15px; }
+.cta p { margin-bottom:20px; }
+.cta button { padding:12px 25px; background:#ff7a00; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1 { font-size:36px; }
+    .hero p { font-size:18px; }
+    .testimonial-cards, .info-cards { flex-direction:column; align-items:center; }
+    .testimonial-card, .info-card { margin:0 auto; }
+}
+/* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- 1. Hero Section -->
+<section class="hero">
+    <h1>What Our Clients Say</h1>
+    <p>Read testimonials from medical professionals and satisfied patients.</p>
+    <button onclick="window.location.href='4042.html'">Share Your Experience</button>
+</section>
+
+<!-- 2. Patient Testimonials -->
+<section>
+    <h2>Patient Testimonials</h2>
+    <div class="testimonial-cards">
+        <div class="testimonial-card">
+            <img src="docc8.webp" alt="Patient1">
+            <p>"The medical solutions provided helped me recover faster."</p>
+            <strong>- Priya S.</strong>
+        </div>
+        <div class="testimonial-card">
+            <img src="docc7.webp" alt="Patient2">
+            <p>"Highly professional staff and excellent healthcare service."</p>
+            <strong>- Raj K.</strong>
+        </div>
+        <div class="testimonial-card">
+            <img src="docc6.webp" alt="Patient3">
+            <p>"I trust this platform for all my medical needs."</p>
+            <strong>- Ananya R.</strong>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Doctor Testimonials -->
+<section class="info-section">
+    <h2>Doctor Feedback</h2>
+    <div class="info-cards">
+        <div class="info-card">"The platform streamlines patient management effectively."</div>
+        <div class="info-card">"Easy access to medical tools and reports."</div>
+        <div class="info-card">"Reliable and user-friendly for clinical workflows."</div>
+    </div>
+</section>
+
+<!-- 4. Success Stories -->
+<section>
+    <h2>Success Stories</h2>
+    <div class="testimonial-cards">
+        <div class="testimonial-card">
+            <p>"Our hospital improved patient satisfaction using these solutions."</p>
+            <strong>- City Hospital</strong>
+        </div>
+        <div class="testimonial-card">
+            <p>"Reduced operational workload and enhanced service delivery."</p>
+            <strong>- Sunrise Clinic</strong>
+        </div>
+        <div class="testimonial-card">
+            <p>"A complete package for modern medical facilities."</p>
+            <strong>- HealthFirst Center</strong>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Feature Feedback -->
+<section class="info-section">
+    <h2>Feature Highlights Feedback</h2>
+    <div class="info-cards">
+        <div class="info-card">"Appointment booking system is fast and accurate."</div>
+        <div class="info-card">"Inventory management tools save time and cost."</div>
+        <div class="info-card">"Medical record tracking is seamless."</div>
+    </div>
+</section>
+
+<!-- 6. Media Mentions -->
+<section>
+    <h2>Media & Community Recognition</h2>
+    <div class="testimonial-cards">
+        <div class="testimonial-card">
+            <p>"Featured in HealthTech Weekly for innovation."</p>
+            <strong>- HealthTech Weekly</strong>
+        </div>
+        <div class="testimonial-card">
+            <p>"Praised for improving patient engagement."</p>
+            <strong>- Medical Times</strong>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Call To Action -->
+<section class="cta">
+    <h2>Join Our Happy Clients</h2>
+    <p>Experience the best medical solutions for yourself.</p>
+    <button onclick="window.location.href='4042.html'">Get Started</button>
+</section> <br><br>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+  // Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+</script>
+
+</body>
+</html>

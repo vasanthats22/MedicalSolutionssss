@@ -1,0 +1,782 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Solutions Home</title>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+<style>
+ /* ===========================
+   HOME PAGE – SCOPED RESET
+=========================== */
+#home-page *,
+#home-page *::before,
+#home-page *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+#home-page {
+  width: 100%;
+  overflow-x: hidden;
+  background: #f0f4f8;
+}
+
+#home-page img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+#home-page a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===========================
+   COMMON
+=========================== */
+#home-page section {
+  padding: 80px 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+#home-page .container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+#home-page h1,
+#home-page h2 {
+  margin-bottom: 25px;
+  color: #0a1f44;
+  animation: homeGlowText 2s infinite alternate;
+}
+
+#home-page p {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+#home-page .btn {
+  padding: 12px 30px;
+  background: #00bfff;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  animation: homeBtnPulse 2s infinite;
+}
+
+#home-page .btn:hover {
+  transform: scale(1.05);
+}
+
+#home-page .btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left: -100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: 0.6s;
+}
+
+#home-page .btn:hover::before {
+  left: 100%;
+}
+
+/* ===========================
+   HERO
+=========================== */
+#home-page #hero {
+  height: 100vh;
+  background: url('medical12.webp') center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+
+#home-page #hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+#home-page #hero .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+/* ===========================
+   SERVICES GRID (FIXED)
+=========================== */
+#home-page .services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+#home-page .service-box {
+  background: linear-gradient(145deg, #e0f7fa, #b2ebf2);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+#home-page .service-box:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+/* =========================
+   FIX SERVICE ICONS
+========================= */
+#home-page .service-box i {
+  display: inline-block !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-style: normal;
+  font-size: 3rem;
+  line-height: 1;
+  color: #00bfff;
+}
+
+/* prevent box rendering */
+#home-page .service-box i::before {
+  content: inherit !important;
+}
+
+
+#home-page .service-box h3 {
+  margin-bottom: 15px;
+}
+
+#home-page .service-box p {
+  margin-bottom: 20px;
+}
+
+/* 🔧 BUTTON ALIGNMENT FIX */
+#home-page .service-box .btn {
+  margin-top: auto;
+  align-self: center;
+}
+
+/* ===========================
+   IMAGE SECTIONS
+=========================== */
+#home-page .section-img-left,
+#home-page .section-img-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+#home-page .section-img-right {
+  flex-direction: row-reverse;
+}
+
+#home-page .section-img-left .text,
+#home-page .section-img-right .text {
+  flex: 1;
+  min-width: 280px;
+}
+
+#home-page .section-img-left .image,
+#home-page .section-img-right .image {
+  flex: 1;
+  min-width: 280px;
+}
+
+#home-page .section-img-left img,
+#home-page .section-img-right img {
+  animation: homeFloat 6s ease-in-out infinite;
+}
+
+/* ===========================
+   STATS
+=========================== */
+#home-page .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+#home-page .stat-box {
+  background: linear-gradient(135deg, #00bfff, #00ffff);
+  color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#home-page .counter {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* ===========================
+   TESTIMONIALS
+=========================== */
+#home-page .testimonials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+#home-page .testimonial {
+  background: linear-gradient(145deg, #b2ebf2, #80deea);
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 300px;
+}
+
+/* ===========================
+   SCROLL ANIMATIONS
+=========================== */
+#home-page .fade-up,
+#home-page .fade-left,
+#home-page .fade-right,
+#home-page .scale-up {
+  opacity: 0;
+  transition: all 0.8s ease;
+}
+
+#home-page .fade-up {
+  transform: translateY(30px);
+}
+
+#home-page .fade-left {
+  transform: translateX(-40px);
+}
+
+#home-page .fade-right {
+  transform: translateX(40px);
+}
+
+#home-page .scale-up {
+  transform: scale(0.8);
+}
+
+#home-page .active {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===========================
+   ANIMATIONS
+=========================== */
+@keyframes homeGlowText {
+  from {
+    text-shadow: 0 0 10px #00bfff;
+  }
+  to {
+    text-shadow: 0 0 30px #00ffff;
+  }
+}
+
+@keyframes homeBtnPulse {
+  0% { box-shadow: 0 0 5px rgba(0,191,255,0.4); }
+  50% { box-shadow: 0 0 20px rgba(0,255,255,0.8); }
+  100% { box-shadow: 0 0 5px rgba(0,191,255,0.4); }
+}
+
+@keyframes homeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* ===========================
+   RESPONSIVE (NO H-SCROLL)
+=========================== */
+@media (max-width: 768px) {
+  #home-page section {
+    padding: 60px 5%;
+    object-fit: cover;
+  }
+
+  #home-page .section-img-left,
+  #home-page .section-img-right {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #home-page section {
+    padding: 50px 5%;
+    object-fit: contain;
+  }
+}
+
+/* loader */
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<div id="home-page">
+  
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content fade-up">
+    <h1>Medical Solutions for Modern Healthcare</h1>
+    <p style="color: whitesmoke;">Cutting-edge technology, patient care solutions, and healthcare software to improve lives globally.</p>
+    <a href="4042.html" class="btn">Explore Services</a>
+  </div>
+</section>
+
+<!-- SECTION 2: SERVICES -->
+<section id="services">
+  <div class="container fade-up">
+    <h2>Our Core Services</h2>
+    <div class="services-grid">
+      <div class="service-box scale-up">
+        <i class="fas fa-hospital"></i>
+        <h3>Hospital Management</h3>
+        <p>Integrated solutions for smooth hospital operations and administration.</p>
+        <a href="4042.html" class="btn btn-service">Learn More</a>
+      </div>
+      <div class="service-box scale-up">
+        <i class="fas fa-stethoscope"></i>
+        <h3>Patient Care</h3>
+        <p>Enhancing patient experience and care with advanced technology.</p>
+        <a href="4042.html" class="btn btn-service">Learn More</a>
+      </div>
+      <div class="service-box scale-up">
+        <i class="fas fa-robot"></i>
+        <h3>AI Diagnostics</h3>
+        <p>Leverage AI for accurate and faster medical diagnostics.</p>
+        <a href="4042.html" class="btn btn-service">Learn More</a>
+      </div>
+      <div class="service-box scale-up">
+        <i class="fas fa-pills"></i>
+        <h3>Pharmacy Solutions</h3>
+        <p>Manage medicine inventory and distribution efficiently.</p>
+        <a href="4042.html" class="btn btn-service">Learn More</a>
+      </div>
+      <div class="service-box scale-up">
+        <i class="fas fa-heartbeat"></i>
+        <h3>Cardiology Tech</h3>
+        <p>Advanced tools for heart health monitoring and diagnostics.</p>
+        <a href="4042.html" class="btn btn-service">Learn More</a>
+      </div>
+      <div class="service-box scale-up">
+        <i class="fas fa-flask"></i>
+        <h3>Lab Automation</h3>
+        <p>Streamlined laboratory operations and accurate test results.</p>
+        <a href="4042.html" class="btn btn-service">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: FEATURE LEFT -->
+<section class="section-img-left fade-left">
+  <div class="text">
+    <h2>Advanced Healthcare Technology</h2>
+    <p>Empowering hospitals and clinics with innovative software and devices to improve patient care.</p>
+    <a href="4042.html" class="btn">Learn More</a>
+  </div>
+  <div class="image">
+    <img src="medical2.webp" alt="Healthcare Technology">
+  </div>
+</section>
+
+<!-- SECTION 4: FEATURE RIGHT -->
+<section class="section-img-right fade-right">
+  <div class="text">
+    <h2>Telemedicine Solutions</h2>
+    <p>Connect patients with doctors remotely through secure telehealth platforms.</p>
+    <a href="4042.html" class="btn">Learn More</a>
+  </div>
+  <div class="image">
+    <img src="medical1.webp" alt="Telemedicine">
+  </div>
+</section>
+
+<!-- SECTION 5: STATS -->
+<section class="fade-up">
+  <div class="container">
+    <h2>Our Impact</h2>
+    <div class="stats-grid">
+      <div class="stat-box scale-up">
+        <div class="counter" data-target="500">0</div>
+        <p>Hospitals Served</p>
+      </div>
+      <div class="stat-box scale-up">
+        <div class="counter" data-target="120000">0</div>
+        <p>Patients Benefited</p>
+      </div>
+      <div class="stat-box scale-up">
+        <div class="counter" data-target="50">0</div>
+        <p>Healthcare Partners</p>
+      </div>
+      <div class="stat-box scale-up">
+        <div class="counter" data-target="100">0</div>
+        <p>Innovative Tools</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: FEATURE LEFT -->
+<section class="section-img-left fade-left">
+  <div class="text">
+    <h2>AI & Innovation</h2>
+    <p>Integrating AI technologies for smarter, faster, and accurate medical decisions.</p>
+    <a href="4042.html" class="btn">Learn More</a>
+  </div>
+  <div class="image">
+    <img src="medical26.webp" alt="AI & Innovation">
+  </div>
+</section>
+
+<!-- SECTION 7: FEATURE RIGHT -->
+<section class="section-img-right fade-right">
+  <div class="text">
+    <h2>Telehealth Services</h2>
+    <p>Reach patients anytime, anywhere with secure telehealth platforms.</p>
+    <a href="4042.html" class="btn">Learn More</a>
+  </div>
+  <div class="image">
+    <img src="medical25.webp" alt="Telehealth">
+  </div>
+</section>
+
+<!-- SECTION 8: CLIENTS -->
+<section class="fade-up" style="background:linear-gradient(135deg,#00e5ff,#00bfa5); color:#fff;">
+  <div class="container">
+    <h2>Our Clients & Partners</h2>
+    <p>Collaborating with hospitals, clinics, and healthcare technology partners worldwide.</p>
+  </div>
+</section>
+
+<!-- SECTION 9: TESTIMONIALS -->
+<section class="fade-up" style="background:linear-gradient(145deg,#e0f7fa,#b2ebf2);">
+  <div class="container">
+    <h2>Testimonials</h2>
+    <div class="testimonials">
+      <div class="testimonial scale-up">
+        <p>"Medical Solutions transformed our hospital operations efficiently!"</p>
+        <strong>- Dr. Smith</strong>
+      </div>
+      <div class="testimonial scale-up">
+        <p>"Their AI diagnostics are accurate and life-saving."</p>
+        <strong>- Hospital Admin</strong>
+      </div>
+      <div class="testimonial scale-up">
+        <p>"Telehealth solution helped us reach patients remotely with ease."</p>
+        <strong>- Clinic Manager</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: CTA -->
+<section class="fade-up" style="background:linear-gradient(135deg,#00bfff,#00ffff); color:#fff;">
+  <div class="container">
+    <h2>Get Started Today</h2>
+    <p>Contact us to integrate innovative healthcare solutions in your hospital or clinic.</p>
+    <a href="4042.html" class="btn">Contact Us</a>
+  </div>
+</section>
+
+<!-- SECTION 11: BLOG -->
+<section class="fade-up" style="background:#e0f7fa;">
+  <div class="container">
+    <h2>Latest Insights</h2>
+    <p>Read our latest articles on healthcare technology and patient care innovation.</p>
+    <a href="4042.html" class="btn">Read More</a>
+  </div>
+</section>
+
+<!-- SECTION 12: NEWSLETTER -->
+<section class="fade-up" style="background:#b2ebf2;">
+  <div class="container">
+    <h2>Subscribe to Updates</h2>
+    <p>Stay informed with the latest healthcare solutions and news.</p>
+    <a href="4042.html" class="btn">Subscribe</a>
+  </div>
+</section>
+
+<!-- SECTION 13: FINAL CTA -->
+<section class="fade-up" style="background:linear-gradient(145deg,#00e5ff,#00bfa5); color:#fff;">
+  <div class="container">
+    <h2>Transform Your Healthcare Today</h2>
+    <p>Join hospitals and clinics that trust Medical Solutions for innovation and efficiency.</p>
+    <a href="4042.html" class="btn">Get Started</a>
+  </div>
+</section>
+<br>
+
+</div>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ===== LOAD HEADER =====
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // ===== LOAD FOOTER =====
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Newsletter Subscribe Button
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', (e) => {
+        const email = emailInput.value.trim();
+        const validEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (!validEmail.test(email)) {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        } else {
+          // Redirect if valid
+          window.location.href = '4042.html';
+        }
+      });
+
+      emailInput?.addEventListener('input', () => {
+        emailError.style.display = 'none';
+        emailInput.style.border = '1px solid #ccc';
+      });
+    });
+
+  // ===== SERVICE BOX ANIMATION =====
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const serviceObserver = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => serviceObserver.observe(box));
+
+  // ===== SCROLL ANIMATIONS =====
+  const faders = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-up');
+  const appearOptions = { threshold: 0.2 };
+  const appearOnScroll = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('active');
+      } else {
+        entry.target.classList.remove('active'); // scroll up animation
+      }
+    });
+  }, appearOptions);
+  faders.forEach(fader => appearOnScroll.observe(fader));
+
+  // ===== COUNTER ANIMATION =====
+  const counters = document.querySelectorAll('.counter');
+  counters.forEach(counter => {
+    const target = +counter.getAttribute('data-target');
+    let count = 0;
+    const updateCount = () => {
+      count += Math.ceil(target / 200);
+      if(count > target) count = 0;
+      counter.innerText = count.toLocaleString();
+    }
+    setInterval(updateCount, 50);
+  });
+
+});
+
+/* ===== REMOVE LOADER AFTER LOAD ===== */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('page-loader').classList.add('hide');
+  }, 1200);
+});
+</script>
+
+
+</body>
+</html> 

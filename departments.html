@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Departments - Medical Solutions</title>
+<style>
+    /* RESET */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    body {
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+        color: #0c9fad;
+    }
+
+    /* HERO SECTION */
+    .hero {
+        width: 100%;
+        height: 280px;
+        background: url('medic1.webp') center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        background: rgba(0,0,0,0.45);
+        padding: 15px 25px;
+        border-radius: 8px;
+    }
+
+    section {
+        padding: 60px 5%;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    .section-content {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .section-content img {
+        /* width: 100px; */
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .section-content .text {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px;
+    }
+
+    .section-content button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        border: none;
+        background: #0c9fad;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background 0.3s;
+    }
+
+    .section-content button:hover {
+        background: #097c86;
+    }
+
+    .section-bg {
+        background: url('medic6.webp') center/cover no-repeat;
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .section-bg h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-shadow: 0 0 6px rgba(0,0,0,0.7);
+    }
+
+    .section-bg p {
+        max-width: 800px;
+        margin: auto;
+        font-size: 18px;
+        line-height: 1.6;
+        text-shadow: 0 0 4px rgba(0,0,0,0.6);
+    }
+
+    .section-bg button{
+        background-color: #ff7a00;
+        color: white;
+        margin-top: 10px;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+    }
+    .section-title img{
+        height: 50px;
+        width: 50px;
+        margin-bottom: 15px;
+    }
+
+    .departments-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        width: 100%;
+    }
+
+    .department-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 8px rgba(0,0,0,0.08);
+        transition: transform 0.3s;
+        width: 100%;
+    }
+
+    .department-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .department-card img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 15px;
+    }
+
+    .department-card button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        border: none;
+        background: #ff7a00;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .department-card button:hover {
+        background: #e16a00;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+        .section-content img, .section-content .text {
+            width: 100%;
+        }
+        .departments-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .section-content {
+            flex-direction: column;
+        }
+        .departments-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 22px;
+        }
+        .section-title {
+            font-size: 22px;
+        }
+        .section-content .text {
+            font-size: 15px;
+            text-align: center;
+        }
+        .section-bg h2 {
+            font-size: 22px;
+        }
+        .section-bg p {
+            font-size: 15px;
+        }
+        .departments-grid {
+            grid-template-columns: 1fr;
+        }
+        section {
+            padding: 30px 15px;
+        }
+    }
+
+    /* ===== PAGE LOADER ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1f44, #001f2d);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Loader box */
+.loader-box {
+  text-align: center;
+  color: #fff;
+  animation: fadeScale 1s ease forwards;
+}
+
+/* Medical cross */
+.cross {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: #00d4ff; /* medical blue */
+  border-radius: 8px;
+}
+
+.cross::before {
+  width: 20px;
+  height: 80px;
+  top: 0;
+  left: 30px;
+}
+
+.cross::after {
+  width: 80px;
+  height: 20px;
+  top: 30px;
+  left: 0;
+}
+
+/* Pulsing animation for cross */
+.cross {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Loader text */
+.loader-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #00d4ff, #00ffaa);
+  animation: loadingBar 1.5s infinite;
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-box">
+    <div class="cross"></div>
+    <div class="loader-text">Loading Medical Solutions...</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1>Our Departments</h1>
+</section>
+
+<!-- SECTION 1: CARDIOLOGY -->
+<section>
+    <h2 class="section-title">Cardiology Department</h2>
+    <div class="section-content">
+        <img src="medic2.webp" alt="Cardiology">
+        <div class="text">
+            <p>Our cardiology department provides advanced cardiac care, including diagnostics, treatments, and monitoring of heart conditions.</p>
+            <button onclick="location.href='404.html'">Learn More</button>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: NEUROLOGY -->
+<section class="section-bg">
+    <h2>Neurology Department</h2>
+    <p>Expert neurologists provide diagnosis and treatment for a wide range of neurological disorders using modern technology.</p>
+    <button onclick="location.href='404.html'">Read More</button>
+</section>
+
+<!-- SECTION 3: PEDIATRICS -->
+<section>
+    <h2 class="section-title">Pediatrics Department</h2>
+    <div class="section-content">
+        <img src="medic3.webp" alt="Pediatrics">
+        <div class="text">
+            <p>We care for children's health, offering preventive care, treatments, and specialized pediatric services for all ages.</p>
+            <button onclick="location.href='404.html'">Learn More</button>
+        </div>
+        <!-- <img src="medic3.webp" alt="Pediatrics"> -->
+    </div>
+</section>
+
+<!-- SECTION 4: ORTHOPEDICS -->
+<section class="section-bg">
+    <h2>Orthopedics Department</h2>
+    <p>Our orthopedic specialists provide treatments for bones, joints, ligaments, and sports injuries with modern surgical techniques.</p>
+    <button onclick="location.href='404.html'">Read More</button>
+</section>
+
+<!-- SECTION 5: EMERGENCY CARE -->
+<section>
+    <h2 class="section-title">Emergency Care</h2>
+    <div class="section-content">
+        <img src="medic4.webp" alt="Emergency">
+        <div class="text">
+            <p>Our emergency department is ready 24/7 to handle medical emergencies with trained staff and advanced equipment.</p>
+            <button onclick="location.href='404.html'">Learn More</button>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 6: RADIOLOGY -->
+<section class="section-bg">
+    <h2>Radiology Department</h2>
+    <p>We provide accurate imaging services including X-rays, MRI, CT scans, and ultrasound for precise diagnosis.</p>
+    <button onclick="location.href='404.html'">View Services</button>
+</section>
+
+<!-- SECTION 7: LABORATORY -->
+<section>
+    <h2 class="section-title">Laboratory Services</h2>
+    <div class="section-content">
+        <img src="medic5.webp" alt="Laboratory">
+        <div class="text">
+            <p>Our advanced lab provides a wide range of tests with accurate results, helping in early detection and monitoring of diseases.</p>
+            <button onclick="location.href='404.html'">Learn More</button>
+        </div>
+        <!-- <img src="medic5.webp" alt="Laboratory"> -->
+    </div>
+</section>
+
+<!-- SECTION 8: SPECIAL DEPARTMENTS GRID -->
+<section>
+    <h2 class="section-title">Other Departments</h2>
+    <div class="departments-grid">
+        <div class="department-card">
+            <img src="d1.webp" alt="ENT">
+            <h3>ENT</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="d2.webp" alt="Dermatology">
+            <h3>Dermatology</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="ss3.webp" alt="Gastroenterology">
+            <h3>Gastroenterology</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="d3.webp" alt="Pathology">
+            <h3>Pathology</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="d4.webp" alt="Pharmacy">
+            <h3>Pharmacy</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="d5.webp" alt="Physiotherapy">
+            <h3>Physiotherapy</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="d6.webp" alt="Oncology">
+            <h3>Oncology</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+        <div class="department-card">
+            <img src="d7.webp" alt="ICU">
+            <h3>ICU</h3>
+            <button onclick="location.href='404.html'">Read More</button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '404.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+  // Remove loader when page fully loads
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    setTimeout(() => {
+      loader.classList.add('hide');
+    }, 1200); // Delay for smooth effect
+  });
+</script>
+
+</body>
+</html>
